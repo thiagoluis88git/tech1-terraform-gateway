@@ -31,7 +31,7 @@ resource "aws_apigatewayv2_vpc_link" "vpc-link" {
 resource "aws_apigatewayv2_integration" "fastfood-api-integration" {
   api_id = aws_apigatewayv2_api.fastfood-api.id
 
-  integration_uri    = var.internal_arn_elb
+  integration_uri    = var.internal_arn_nlb
   integration_type   = "HTTP_PROXY"
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
