@@ -1,5 +1,5 @@
-variable "internal_arn_elb" {
-  description = "ARN Internal ELB provided by the Kubernetes Service on EKS"
+variable "internal_arn_nlb" {
+  description = "ARN Internal NLB provided by the Kubernetes Service on EKS"
   type        = string
   sensitive   = false
 }
