@@ -7,7 +7,7 @@ jobs:
   destroy-terraform:
     runs-on: ubuntu-latest
     env:
-      TF_VAR_internal_arn_elb: ${{ secrets.INTERNAL_ARN_ELB }}
+      TF_VAR_internal_arn_nlb: ${{ secrets.INTERNAL_ARN_NLB }}
 
     steps:
       - name: Checkout Repository
