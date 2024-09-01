@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "fastfood-api" {
-  name          = "main"
+  name          = "fastfood-api"
   protocol_type = "HTTP"
 }
 
@@ -12,7 +12,7 @@ resource "aws_apigatewayv2_stage" "prd" {
 
 resource "aws_security_group" "sg-vpc-link" {
   name   = "sg-vpc-link"
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.fiap-vpc.id
 
   egress {
     from_port        = 0
