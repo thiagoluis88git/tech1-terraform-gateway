@@ -28,3 +28,9 @@ variable "internal_arn_nlb" {
   type        = string
   sensitive   = false
 }
+
+variable "vpc_id" {
+  description = "VPC ID created by the other Terraform Repository"
+  type        = string
+  sensitive   = false
+}
