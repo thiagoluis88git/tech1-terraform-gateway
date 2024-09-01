@@ -10,8 +10,8 @@ resource "aws_apigatewayv2_stage" "prd" {
   auto_deploy = true
 }
 
-resource "aws_security_group" "sg-vpc-link" {
-  name   = "sg-vpc-link"
+resource "aws_security_group" "vpc-link-sg" {
+  name   = "vpc-link-sg"
   vpc_id = var.vpc_id
 
   egress {
