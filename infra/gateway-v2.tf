@@ -8,6 +8,11 @@ data "terraform_remote_state" "fastfood-core" {
   }
 }
 
+data "aws_lb_listener" "fastfood-lb-listener" {
+  load_balancer_arn = var.internal_arn_nlb
+  port              = 443
+}
+
 resource "aws_apigatewayv2_api" "fastfood-api" {
   name          = "fastfood-api"
   protocol_type = "HTTP"
@@ -41,7 +46,7 @@ resource "aws_apigatewayv2_vpc_link" "vpc-link" {
 resource "aws_apigatewayv2_integration" "fastfood-api-integration" {
   api_id = aws_apigatewayv2_api.fastfood-api.id
 
-  integration_uri    = var.internal_arn_nlb
+  integration_uri    = data.aws_lb_listener.fastfood-lb-listener.arn
   integration_type   = "HTTP_PROXY"
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
