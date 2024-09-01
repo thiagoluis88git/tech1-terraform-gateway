@@ -1,3 +1,13 @@
+data "terraform_remote_state" "fastfood-core" {
+  backend = "s3"
+
+  config = {
+    bucket = "ratl-fiaptech1-2024-terraform-state"
+    key    = "fiap/tech-challenge"
+    region = "us-east-1"
+  }
+}
+
 resource "aws_apigatewayv2_api" "fastfood-api" {
   name          = "fastfood-api"
   protocol_type = "HTTP"
@@ -12,7 +22,7 @@ resource "aws_apigatewayv2_stage" "prd" {
 
 resource "aws_security_group" "vpc-link-sg" {
   name   = "vpc-link-sg"
-  vpc_id = var.vpc_id
+  vpc_id = data.terraform_remote_state.fastfood-core.outputs.vpc-id
 
   egress {
     from_port        = 0
@@ -24,8 +34,8 @@ resource "aws_security_group" "vpc-link-sg" {
 
 resource "aws_apigatewayv2_vpc_link" "vpc-link" {
   name               = "vpc-link"
-  security_group_ids = [aws_security_group.sg-vpc-link.id]
-  subnet_ids         = flatten([aws_subnet.private-subnet[*].id])
+  security_group_ids = [aws_security_group.vpc-link-sg.id]
+  subnet_ids         = data.terraform_remote_state.fastfood-core.outputs.private-subnets-ids
 }
 
 resource "aws_apigatewayv2_integration" "fastfood-api-integration" {
