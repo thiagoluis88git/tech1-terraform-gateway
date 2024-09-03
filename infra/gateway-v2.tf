@@ -53,7 +53,7 @@ resource "aws_apigatewayv2_integration" "fastfood-api-integration" {
   connection_id      = aws_apigatewayv2_vpc_link.vpc-link.id
 }
 
-resource "aws_apigatewayv2_route" "get_echo" {
+resource "aws_apigatewayv2_route" "fastfood-api-route" {
   api_id = aws_apigatewayv2_api.fastfood-api.id
 
   route_key = "ANY /{proxy+}"
