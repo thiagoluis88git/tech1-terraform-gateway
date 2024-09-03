@@ -51,6 +51,10 @@ resource "aws_apigatewayv2_integration" "fastfood-api-integration" {
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
   connection_id      = aws_apigatewayv2_vpc_link.vpc-link.id
+
+  request_parameters = {
+    "overwrite:path" = "/"
+  }
 }
 
 resource "aws_apigatewayv2_route" "fastfood-api-route" {
