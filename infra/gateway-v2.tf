@@ -56,7 +56,7 @@ resource "aws_apigatewayv2_integration" "fastfood-api-integration" {
 resource "aws_apigatewayv2_route" "get_echo" {
   api_id = aws_apigatewayv2_api.fastfood-api.id
 
-  route_key = "GET /echo"
+  route_key = "ANY /{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.fastfood-api-integration.id}"
 }
 
