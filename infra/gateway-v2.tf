@@ -29,6 +29,13 @@ resource "aws_security_group" "vpc-link-sg" {
   name   = "vpc-link-sg"
   vpc_id = data.terraform_remote_state.fastfood-core.outputs.vpc-id
 
+  ingress {
+    from_port        = 80
+    to_port          = 0
+    protocol         = "TCP"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -51,10 +58,6 @@ resource "aws_apigatewayv2_integration" "fastfood-api-integration" {
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
   connection_id      = aws_apigatewayv2_vpc_link.vpc-link.id
-
-  request_parameters = {
-    "overwrite:path" = "/"
-  }
 }
 
 resource "aws_apigatewayv2_route" "fastfood-api-route" {
