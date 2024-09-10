@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_VAR_internal_arn_nlb: ${{ vars.INTERNAL_ARN_NLB }}
+      TF_VAR_load_balancer_dns: ${{ vars.LOAD_BALANCER_DNS }}
       TF_VAR_vpc_id: ${{ vars.VPC_ID }}
 
     steps:

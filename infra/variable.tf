@@ -28,3 +28,9 @@ variable "internal_arn_nlb" {
   type        = string
   sensitive   = false
 }
+
+variable "load_balancer_dns" {
+  description = "Load Balancer DNS"
+  type        = string
+  sensitive   = false
+}
