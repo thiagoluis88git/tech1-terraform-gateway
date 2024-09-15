@@ -10,6 +10,6 @@ resource "aws_lambda_function" "lambda-authorizer" {
     source_code_hash    = data.archive_file.python-lambda-package.output_base64sha256
     role                = var.networking.fiap_role
     runtime             = "python3.9"
-    handler             = "lambda_function.lambda_handler"
+    handler             = "lambda_authorizer.lambda_handler"
     timeout             = 10
 }
