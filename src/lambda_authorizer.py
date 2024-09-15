@@ -50,10 +50,13 @@ def verify_access_token(access_token):
 def lambda_handler(event, context):
     token = event['authorizationToken']
 
+    # Ex: arn:aws:execute-api:us-east-1:714167738697:d5f2gzii64/prd/GET/api/products/3
+    arn = event['methodArn']
+
     isValid = verify_access_token(token)
 
     print("É valido?", isValid)
-    
+
     valid_token = 'xyz987'
 
     if token == valid_token:
