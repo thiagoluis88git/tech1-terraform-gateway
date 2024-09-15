@@ -23,8 +23,8 @@ variable "networking" {
   }
 }
 
-variable "internal_arn_nlb" {
-  description = "ARN Internal NLB provided by the Kubernetes Service on EKS"
+variable "load_balancer_arn" {
+  description = "Load Balancer ARN"
   type        = string
   sensitive   = false
 }

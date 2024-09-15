@@ -1,7 +1,7 @@
 resource "aws_api_gateway_vpc_link" "main" {
   name        = "fastfood_gateway_vpclink"
   description = "Fastfood Gateway VPC Link."
-  target_arns = [var.internal_arn_nlb]
+  target_arns = [var.load_balancer_arn]
 }
 
 resource "aws_api_gateway_rest_api" "main" {
@@ -103,6 +103,13 @@ resource "aws_api_gateway_stage" "stage_prd" {
   deployment_id = aws_api_gateway_deployment.deployment.id
   rest_api_id   = aws_api_gateway_rest_api.main.id
   stage_name    = "prd"
+}
+
+resource "aws_api_gateway_authorizer" "gateway-authorizer" {
+  name                   = "Gateway Authorizer"
+  rest_api_id            = aws_api_gateway_rest_api.main.id
+  authorizer_uri         = aws_lambda_function.lambda-authorizer.invoke_arn
+  authorizer_credentials = var.networking.fiap_role
 }
 
 output "base_url" {
