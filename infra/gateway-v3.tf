@@ -1,12 +1,12 @@
 resource "aws_api_gateway_vpc_link" "main" {
-  name        = "foobar_gateway_vpclink"
-  description = "Foobar Gateway VPC Link. Managed by Terraform."
+  name        = "fastfood_gateway_vpclink"
+  description = "Fastfood Gateway VPC Link."
   target_arns = [var.internal_arn_nlb]
 }
 
 resource "aws_api_gateway_rest_api" "main" {
-  name        = "foobar_gateway"
-  description = "Foobar Gateway used for EKS. Managed by Terraform."
+  name        = "fastfood_gateway"
+  description = "Fastfood Gateway used for EKS."
   endpoint_configuration {
     types = ["REGIONAL"]
   }
@@ -45,16 +45,15 @@ resource "aws_api_gateway_rest_api" "main" {
 #   connection_id   = aws_api_gateway_vpc_link.main.id
 # }
 
-
-resource "aws_api_gateway_resource" "proxy" {
+resource "aws_api_gateway_resource" "resource-api" {
   rest_api_id = aws_api_gateway_rest_api.main.id
   parent_id   = aws_api_gateway_rest_api.main.root_resource_id
   path_part   = "{proxy+}"
 }
 
-resource "aws_api_gateway_method" "proxy" {
+resource "aws_api_gateway_method" "method-api" {
   rest_api_id   = aws_api_gateway_rest_api.main.id
-  resource_id   = aws_api_gateway_resource.proxy.id
+  resource_id   = aws_api_gateway_resource.resource-api.id
   http_method   = "ANY"
   authorization = "NONE"
 
@@ -64,9 +63,9 @@ resource "aws_api_gateway_method" "proxy" {
   }
 }
 
-resource "aws_api_gateway_integration" "proxy" {
+resource "aws_api_gateway_integration" "integration-api" {
   rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.proxy.id
+  resource_id = aws_api_gateway_resource.resource-api.id
   http_method = "ANY"
 
   integration_http_method = "ANY"
@@ -85,12 +84,6 @@ resource "aws_api_gateway_integration" "proxy" {
   connection_id   = aws_api_gateway_vpc_link.main.id
 }
 
-resource "aws_api_gateway_stage" "stage_prd" {
-  deployment_id = aws_api_gateway_deployment.deployment.id
-  rest_api_id   = aws_api_gateway_rest_api.main.id
-  stage_name    = "prd"
-}
-
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.main.id
 
@@ -103,8 +96,13 @@ resource "aws_api_gateway_deployment" "deployment" {
     create_before_destroy = true
   }
 
-  depends_on = [aws_api_gateway_integration.proxy]
-#   depends_on = [aws_api_gateway_integration.proxy, aws_api_gateway_integration.root]
+  depends_on = [aws_api_gateway_integration.integration-api]
+}
+
+resource "aws_api_gateway_stage" "stage_prd" {
+  deployment_id = aws_api_gateway_deployment.deployment.id
+  rest_api_id   = aws_api_gateway_rest_api.main.id
+  stage_name    = "prd"
 }
 
 output "base_url" {
