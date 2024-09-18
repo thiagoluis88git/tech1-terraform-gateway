@@ -47,16 +47,21 @@ def verify_access_token(access_token):
         
         return False
 
+def check_path(path, token):
+    if "/auth/" in path or "/health" in path or "/swagger/" in path:
+        return True
+    
+    return verify_access_token(token)
+
 def lambda_handler(event, context):
     token = event['authorizationToken']
 
-    isValid = verify_access_token(token)
+    # Ex: arn:aws:execute-api:us-east-1:714167738697:d5f2gzii64/prd/GET/api/products/3
+    methodArn = event['methodArn']
 
-    print("É valido?", isValid)
+    isValid = check_path(methodArn, token)
+
+    if not isValid:
+        return generate_policy('user', 'Deny', methodArn)
     
-    valid_token = 'xyz987'
-
-    if token == valid_token:
-        return generate_policy('user', 'Allow', event['methodArn'])
-    else:
-        return generate_policy('user', 'Deny', event['methodArn'])
+    return generate_policy('user', 'Allow', methodArn)
