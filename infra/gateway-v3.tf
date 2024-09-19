@@ -60,7 +60,7 @@ resource "aws_api_gateway_method" "method-api" {
 
   request_parameters = {
     "method.request.path.proxy"           = true
-    "method.request.header.Authorization" = true
+    "method.request.header.Authorization" = false
   }
 }
 
