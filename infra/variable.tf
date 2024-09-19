@@ -34,3 +34,15 @@ variable "load_balancer_dns" {
   type        = string
   sensitive   = false
 }
+
+variable "fastfood_aws_access_key_id" {
+  description = "Load Balancer DNS"
+  type        = string
+  sensitive   = true
+}
+
+variable "fastfood_aws_secret_access_key" {
+  description = "Load Balancer DNS"
+  type        = string
+  sensitive   = true
+}
