@@ -24,7 +24,7 @@ def generate_policy(principal_id, effect, resource):
 
 def verify_access_token(access_token):
     # Initialize a boto3 client for Cognito
-    client = boto3.client('cognito-idp')
+    client = boto3.client('cognito-idp', region_name="us-east-1")
 
     try:
         # Call GetUser API with the provided access token
@@ -34,7 +34,7 @@ def verify_access_token(access_token):
         
         # If the access token is valid, you will get user information
         print("Access token is valid!")
-        print("User attributes:", response['UserAttributes'])
+        print("User attributes:", response)
         
         return True
     
