@@ -9,6 +9,8 @@ jobs:
     env:
       TF_VAR_load_balancer_arn: ${{ vars.LOAD_BALANCER_ARN }}
       TF_VAR_load_balancer_dns: ${{ vars.LOAD_BALANCER_DNS }}
+      TF_VAR_fastfood_aws_access_key_id: ${{ secrets.FASTFOOD_AWS_ACCESS_KEY_ID }}
+      TF_VAR_fastfood_aws_secret_access_key: ${{ secrets.FASTFOOD_AWS_SECRET_ACCESS_KEY }}
 
     steps:
       - name: Checkout Repository

@@ -12,4 +12,11 @@ resource "aws_lambda_function" "lambda-authorizer" {
     runtime             = "python3.9"
     handler             = "lambda_authorizer.lambda_handler"
     timeout             = 10
+
+    environment {
+      variables = {
+        fastfood_aws_access_key_id = var.fastfood_aws_access_key_id
+        fastfood_aws_secret_access_key = var.fastfood_aws_secret_access_key
+      }
+   }
 }
