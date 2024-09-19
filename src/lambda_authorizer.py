@@ -1,4 +1,5 @@
 import json
+import base64
 import boto3
 from botocore.exceptions import ClientError
 
@@ -8,7 +9,7 @@ def generate_policy(principal_id, effect, resource):
     }
 
     if effect and resource:
-        polici_document = {
+        policy_document = {
             'Version': '2012-10-17',
             'Statement': [
                 {
@@ -18,7 +19,7 @@ def generate_policy(principal_id, effect, resource):
                 }
             ]
         }
-        auth_response['policyDocument'] = polici_document
+        auth_response['policyDocument'] = policy_document
 
     return auth_response
 
@@ -36,6 +37,12 @@ def verify_access_token(access_token):
         print("Access token is valid!")
         print("User attributes:", response)
         
+        tokenSplitted = access_token.split(".")
+
+        decodedsample = base64.b64decode(tokenSplitted[1] + "==")
+
+        print("DECOODEEEDD", decodedsample)
+
         return True
     
     except ClientError as e:
