@@ -48,7 +48,11 @@ def verify_access_token(access_token):
         return False
 
 def check_path(path, token):
-    if "/auth/" in path or "/health" in path or "/swagger/" in path:
+    if path.find("/auth/") > 0:
+        return True
+    if path.find("/health") > 0:
+        return True
+    if path.find("/swagger/") > 0:
         return True
     
     return verify_access_token(token)
