@@ -23,7 +23,7 @@ def generate_policy(principal_id, effect, resource):
 
     return auth_response
 
-def verify_access_token(access_token):
+def verify_access_token(access_token, path):
     # Initialize a boto3 client for Cognito
     client = boto3.client('cognito-idp', region_name="us-east-1")
 
@@ -39,11 +39,9 @@ def verify_access_token(access_token):
         
         tokenSplitted = access_token.split(".")
 
-        decodedsample = base64.b64decode(tokenSplitted[1] + "==")
+        userData = base64.b64decode(tokenSplitted[1] + "==")
 
-        print("DECOODEEEDD", decodedsample)
-
-        return True
+        return check_user_group(userData["cognito:groups"], path)
     
     except ClientError as e:
         # Handle exceptions (such as invalid token)
@@ -54,6 +52,15 @@ def verify_access_token(access_token):
         
         return False
 
+def check_user_group(group, path):
+    if path.find("/api/admin/") and "group-admin" in group:
+        return True
+    
+    if path.find("/api/") and ("group-admin" in group or "group-users" in group):
+        return True
+    
+    return False
+
 def check_path(path, token):
     if path.find("/auth/") > 0:
         return True
@@ -62,7 +69,7 @@ def check_path(path, token):
     if path.find("/swagger/") > 0:
         return True
     
-    return verify_access_token(token)
+    return verify_access_token(token, path)
 
 def lambda_handler(event, context):
     token = event['authorizationToken']
