@@ -39,9 +39,13 @@ def verify_access_token(access_token, path):
         
         tokenSplitted = access_token.split(".")
 
-        userData = base64.b64decode(tokenSplitted[1] + "==")
+        userDataBytes = base64.b64decode(tokenSplitted[1] + "==")
 
-        return check_user_group(userData["cognito:groups"], path)
+        userData = userDataBytes.decode("utf-8")
+        
+        userDataDict = json.loads(userData)
+
+        return check_user_group(userDataDict["cognito:groups"], path)
     
     except ClientError as e:
         # Handle exceptions (such as invalid token)
@@ -53,13 +57,13 @@ def verify_access_token(access_token, path):
         return False
 
 def check_user_group(group, path):
-    if path.find("/api/admin/") and "group-admin" in group:
-        return True
+    if path.find("/admin/") and "group-admin" not in group:
+        return False
     
-    if path.find("/api/") and ("group-admin" in group or "group-users" in group):
-        return True
+    if path.find("/api/") and ("group-admin" not in group or "group-users" not in group):
+        return False
     
-    return False
+    return True
 
 def check_path(path, token):
     if path.find("/auth/") > 0:
