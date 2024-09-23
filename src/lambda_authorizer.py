@@ -57,7 +57,7 @@ def verify_access_token(access_token, path):
         return False
 
 def check_user_group(group, path):
-    if path.find("/admin/"):
+    if path.find("/admin/") > 0:
         return "group-admin" in group
     
     if "group-admin" in group or "group-users" in group:
