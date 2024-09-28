@@ -5,8 +5,8 @@
 - [Table of Contents](#table-of-contents)
 - [Description](#description)
 - [How to use](#how-to-use)
+    - [Dependencies](#dependencies)
 - [Infrastructure resources](#infrastructure-resources)
-- [Other infrastructure resources](#other-infrastructure-resources)
 
 ## Description
 
