@@ -114,6 +114,6 @@ resource "aws_api_gateway_authorizer" "gateway-orders-authorizer" {
   authorizer_result_ttl_in_seconds = 0
 }
 
-output "base_url" {
+output "base_orders_url" {
   value = "${aws_api_gateway_stage.stage_orders_prd.invoke_url}/"
 }

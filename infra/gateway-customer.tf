@@ -114,6 +114,6 @@ resource "aws_api_gateway_authorizer" "gateway-customer-authorizer" {
   authorizer_result_ttl_in_seconds = 0
 }
 
-output "base_url" {
+output "base_customer_url" {
   value = "${aws_api_gateway_stage.stage_customer_prd.invoke_url}/"
 }
