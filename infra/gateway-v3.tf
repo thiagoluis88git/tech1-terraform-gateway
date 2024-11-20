@@ -71,7 +71,7 @@ resource "aws_api_gateway_integration" "customer-api" {
 
   integration_http_method = "ANY"
   type                    = "HTTP_PROXY"
-  uri                     = "http://${var.load_balancer_dns}/customer/{proxy}"
+  uri                     = "http://${var.load_balancer_dns}/{proxy}"
   passthrough_behavior    = "WHEN_NO_MATCH"
   content_handling        = "CONVERT_TO_TEXT"
 
