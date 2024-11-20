@@ -1,10 +1,10 @@
-resource "aws_api_gateway_vpc_link" "main" {
+resource "aws_api_gateway_vpc_link" "main-orders" {
   name        = "fastfood_gateway_vpclink"
   description = "Fastfood Gateway VPC Link."
-  target_arns = [var.load_balancer_arn]
+  target_arns = [var.load_balancer_arn_orders]
 }
 
-resource "aws_api_gateway_rest_api" "main" {
+resource "aws_api_gateway_rest_api" "main-orders" {
   name        = "fastfood_gateway"
   description = "Fastfood Gateway used for EKS."
   endpoint_configuration {
@@ -46,13 +46,13 @@ resource "aws_api_gateway_rest_api" "main" {
 # }
 
 resource "aws_api_gateway_resource" "resource-api" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
-  parent_id   = aws_api_gateway_rest_api.main.root_resource_id
+  rest_api_id = aws_api_gateway_rest_api.main-orders.id
+  parent_id   = aws_api_gateway_rest_api.main-orders.root_resource_id
   path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "method-api" {
-  rest_api_id   = aws_api_gateway_rest_api.main.id
+  rest_api_id   = aws_api_gateway_rest_api.main-orders.id
   resource_id   = aws_api_gateway_resource.resource-api.id
   http_method   = "ANY"
   authorization = "CUSTOM"
@@ -64,14 +64,14 @@ resource "aws_api_gateway_method" "method-api" {
   }
 }
 
-resource "aws_api_gateway_integration" "customer-api" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
+resource "aws_api_gateway_integration" "orders-api" {
+  rest_api_id = aws_api_gateway_rest_api.main-orders.id
   resource_id = aws_api_gateway_resource.resource-api.id
   http_method = "ANY"
 
   integration_http_method = "ANY"
   type                    = "HTTP_PROXY"
-  uri                     = "http://${var.load_balancer_dns}/{proxy}"
+  uri                     = "http://${var.load_balancer_dns_orders}/{proxy}"
   passthrough_behavior    = "WHEN_NO_MATCH"
   content_handling        = "CONVERT_TO_TEXT"
 
@@ -82,14 +82,14 @@ resource "aws_api_gateway_integration" "customer-api" {
   }
 
   connection_type = "VPC_LINK"
-  connection_id   = aws_api_gateway_vpc_link.main.id
+  connection_id   = aws_api_gateway_vpc_link.main-orders.id
 }
 
 resource "aws_api_gateway_deployment" "deployment" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
+  rest_api_id = aws_api_gateway_rest_api.main-orders.id
 
   triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.main.body))
+    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.main-orders.body))
     auto_deploy  = true
   }
 
@@ -97,18 +97,18 @@ resource "aws_api_gateway_deployment" "deployment" {
     create_before_destroy = true
   }
 
-  depends_on = [aws_api_gateway_integration.customer-api]
+  depends_on = [aws_api_gateway_integration.orders-api]
 }
 
 resource "aws_api_gateway_stage" "stage_prd" {
   deployment_id = aws_api_gateway_deployment.deployment.id
-  rest_api_id   = aws_api_gateway_rest_api.main.id
+  rest_api_id   = aws_api_gateway_rest_api.main-orders.id
   stage_name    = "prd"
 }
 
 resource "aws_api_gateway_authorizer" "gateway-authorizer" {
   name                   = "gateway-authorizer"
-  rest_api_id            = aws_api_gateway_rest_api.main.id
+  rest_api_id            = aws_api_gateway_rest_api.main-orders.id
   authorizer_uri         = aws_lambda_function.lambda-authorizer.invoke_arn
   authorizer_credentials = var.networking.fiap_role
   authorizer_result_ttl_in_seconds = 0

@@ -23,13 +23,25 @@ variable "networking" {
   }
 }
 
-variable "load_balancer_arn" {
+variable "load_balancer_arn_customer" {
   description = "Load Balancer ARN"
   type        = string
   sensitive   = false
 }
 
-variable "load_balancer_dns" {
+variable "load_balancer_dns_customer" {
+  description = "Load Balancer DNS"
+  type        = string
+  sensitive   = false
+}
+
+variable "load_balancer_arn_orders" {
+  description = "Load Balancer ARN"
+  type        = string
+  sensitive   = false
+}
+
+variable "load_balancer_dns_orders" {
   description = "Load Balancer DNS"
   type        = string
   sensitive   = false
