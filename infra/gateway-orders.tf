@@ -1,11 +1,11 @@
 resource "aws_api_gateway_vpc_link" "main-orders" {
-  name        = "fastfood_gateway_vpclink"
+  name        = "fastfood_orders_gateway_vpclink"
   description = "Fastfood Gateway VPC Link."
   target_arns = [var.load_balancer_arn_orders]
 }
 
 resource "aws_api_gateway_rest_api" "main-orders" {
-  name        = "fastfood_gateway"
+  name        = "fastfood_orders_gateway"
   description = "Fastfood Gateway used for EKS."
   endpoint_configuration {
     types = ["REGIONAL"]
