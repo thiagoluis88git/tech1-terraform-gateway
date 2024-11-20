@@ -107,7 +107,7 @@ resource "aws_api_gateway_stage" "stage_customer_prd" {
 }
 
 resource "aws_api_gateway_authorizer" "gateway-customer-authorizer" {
-  name                   = "gateway-authorizer"
+  name                   = "gateway-customer-authorizer"
   rest_api_id            = aws_api_gateway_rest_api.main-customer.id
   authorizer_uri         = aws_lambda_function.lambda-authorizer.invoke_arn
   authorizer_credentials = var.networking.fiap_role
