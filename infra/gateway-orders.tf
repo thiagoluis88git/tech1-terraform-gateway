@@ -107,13 +107,13 @@ resource "aws_api_gateway_stage" "stage_orders_prd" {
 }
 
 resource "aws_api_gateway_authorizer" "gateway-orders-authorizer" {
-  name                   = "gateway-authorizer"
+  name                   = "gateway-orders-authorizer"
   rest_api_id            = aws_api_gateway_rest_api.main-orders.id
   authorizer_uri         = aws_lambda_function.lambda-authorizer.invoke_arn
   authorizer_credentials = var.networking.fiap_role
   authorizer_result_ttl_in_seconds = 0
 }
 
-output "base_url" {
+output "base_orders_url" {
   value = "${aws_api_gateway_stage.stage_orders_prd.invoke_url}/"
 }
