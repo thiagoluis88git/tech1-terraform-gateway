@@ -24,25 +24,37 @@ variable "networking" {
 }
 
 variable "load_balancer_arn_customer" {
-  description = "Load Balancer ARN"
+  description = "Customer Load Balancer ARN"
   type        = string
   sensitive   = false
 }
 
 variable "load_balancer_dns_customer" {
-  description = "Load Balancer DNS"
+  description = "Customer Load Balancer DNS"
   type        = string
   sensitive   = false
 }
 
 variable "load_balancer_arn_orders" {
-  description = "Load Balancer ARN"
+  description = "Orders Load Balancer ARN"
   type        = string
   sensitive   = false
 }
 
 variable "load_balancer_dns_orders" {
-  description = "Load Balancer DNS"
+  description = "Orders Load Balancer DNS"
+  type        = string
+  sensitive   = false
+}
+
+variable "load_balancer_arn_payment" {
+  description = "Payment Load Balancer ARN"
+  type        = string
+  sensitive   = false
+}
+
+variable "load_balancer_dns_payment" {
+  description = "Payment Load Balancer DNS"
   type        = string
   sensitive   = false
 }

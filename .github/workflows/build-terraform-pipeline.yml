@@ -11,6 +11,8 @@ jobs:
       TF_VAR_load_balancer_dns_customer: ${{ vars.LOAD_BALANCER_DNS_CUSTOMER }}
       TF_VAR_load_balancer_arn_orders: ${{ vars.LOAD_BALANCER_ARN_ORDERS }}
       TF_VAR_load_balancer_dns_orders: ${{ vars.LOAD_BALANCER_DNS_ORDERS }}
+      TF_VAR_load_balancer_arn_payment: ${{ vars.LOAD_BALANCER_ARN_PAYMENT }}
+      TF_VAR_load_balancer_dns_payment: ${{ vars.LOAD_BALANCER_DNS_PAYMENT }}
       TF_VAR_fastfood_aws_access_key_id: ${{ secrets.FASTFOOD_AWS_ACCESS_KEY_ID }}
       TF_VAR_fastfood_aws_secret_access_key: ${{ secrets.FASTFOOD_AWS_SECRET_ACCESS_KEY }}
 
