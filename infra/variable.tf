@@ -15,7 +15,7 @@ variable "networking" {
     region          = "us-east-1"
     profile         = "fiap-local"
     vpc_name        = "fiap-vpc"
-    fiap_role       = "arn:aws:iam::533267412722:role/LabRole"
+    fiap_role       = "arn:aws:iam::199710252834:role/LabRole"
     azs             = ["us-east-1a", "us-east-1b"]
     public_subnets  = ["141.0.1.0/24", "141.0.2.0/24"]
     private_subnets = ["141.0.3.0/24", "141.0.4.0/24"]
