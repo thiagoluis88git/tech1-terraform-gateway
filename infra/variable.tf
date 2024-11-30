@@ -15,7 +15,7 @@ variable "networking" {
     region          = "us-east-1"
     profile         = "fiap-local"
     vpc_name        = "fiap-vpc"
-    fiap_role       = "arn:aws:iam::533267412722:role/LabRole"
+    fiap_role       = "arn:aws:iam::199710252834:role/LabRole"
     azs             = ["us-east-1a", "us-east-1b"]
     public_subnets  = ["141.0.1.0/24", "141.0.2.0/24"]
     private_subnets = ["141.0.3.0/24", "141.0.4.0/24"]
@@ -24,25 +24,37 @@ variable "networking" {
 }
 
 variable "load_balancer_arn_customer" {
-  description = "Load Balancer ARN"
+  description = "Customer Load Balancer ARN"
   type        = string
   sensitive   = false
 }
 
 variable "load_balancer_dns_customer" {
-  description = "Load Balancer DNS"
+  description = "Customer Load Balancer DNS"
   type        = string
   sensitive   = false
 }
 
 variable "load_balancer_arn_orders" {
-  description = "Load Balancer ARN"
+  description = "Orders Load Balancer ARN"
   type        = string
   sensitive   = false
 }
 
 variable "load_balancer_dns_orders" {
-  description = "Load Balancer DNS"
+  description = "Orders Load Balancer DNS"
+  type        = string
+  sensitive   = false
+}
+
+variable "load_balancer_arn_payment" {
+  description = "Payment Load Balancer ARN"
+  type        = string
+  sensitive   = false
+}
+
+variable "load_balancer_dns_payment" {
+  description = "Payment Load Balancer DNS"
   type        = string
   sensitive   = false
 }
